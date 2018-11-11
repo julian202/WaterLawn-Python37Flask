@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<title>Should I water my lawn</title>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<style>  
+    .card-header {text-align: center;}
+	.card-title {text-align: center;font-size: 1.8rem;}
+	.pagetitle 	{text-align: center;margin: 1.8rem;}
+</style>
+</head>
+<body>
+
+<!-- Hourly:
+<div id="divHourly"></div> -->
+		
+<div class="pagetitle">
+	<h1>Your Rainfall in the past 5 days. 3</h1>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md">
+			<div class="card border-primary mb-3" style="max-width: 18rem;">
+			  <div class="card-header" id="divDate"></div>
+			  <div class="card-body text-primary">
+				<h5 class="card-title" id="divDaily">{{ times[0] }}</h5>
+				<p class="card-text" >Some quick example text .</p>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md">
+			<div class="card border-primary mb-3" style="max-width: 18rem;">
+			  <div class="card-header" id="divDateMinus1"></div>
+			  <div class="card-body text-primary">
+				<h5 class="card-title" id="divDailyMinus1">{{ times[1] }}</h5>
+				<p class="card-text" >Some quick example text .</p>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md">
+			<div class="card border-primary mb-3" style="max-width: 18rem;">
+			  <div class="card-header" id="divDateMinus2"></div>
+			  <div class="card-body text-primary">
+				<h5 class="card-title" id="divDailyMinus2">{{ times[2] }}</h5>
+				<p class="card-text" >Some quick example text .</p>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md">
+			<div class="card border-primary mb-3" style="max-width: 18rem;">
+			  <div class="card-header" id="divDateMinus3"></div>
+			  <div class="card-body text-primary">
+				<h5 class="card-title" id="divDailyMinus3">Primary card title</h5>
+				<p class="card-text" >Some quick example text .</p>
+			  </div>
+			</div>
+		</div>
+		<div class="col-md">
+			<div class="card border-primary mb-3" style="max-width: 18rem;">
+			  <div class="card-header" id="divDateMinus4"></div>
+			  <div class="card-body text-primary">
+				<h5 class="card-title" id="divDailyMinus4">Primary card title</h5>
+				<p class="card-text" >Some quick example text .</p>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+//var date = 1539205261; //Daily:0.19
+var date = 1540732849;
+var dateMinus1 = date - 24*60*60;
+var dateMinus2 = date - 2*24*60*60;
+var dateMinus3 = date - 3*24*60*60;
+var dateMinus4 = date - 4*24*60*60;
+//var url = "https://api.darksky.net/forecast/8b19ff2840cd837d214d2bfce73426b8/34.277215,-77.836957";
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
+  var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
+  var timeUptoDays = date + ' ' + month + ' ' + year;
+  var timeUpToSecs = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+  return timeUptoDays;
+}
+
+$('#divDate').append(timeConverter(date));
+$('#divDateMinus1').append(timeConverter(dateMinus1));
+$('#divDateMinus2').append(timeConverter(dateMinus2));
+$('#divDateMinus3').append(timeConverter(dateMinus3));
+$('#divDateMinus4').append(timeConverter(dateMinus4));
+
+console.log("Done.");
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
