@@ -26,7 +26,7 @@ import geoip2.database
 from flask import request
 from flask import jsonify
 
-reader = geoip2.database.Reader('C:\\Users\\julia\\Downloads\\GeoLite2-City_20181106\\GeoLite2-City.mmdb')
+reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 response = reader.city('128.101.101.101')
 
 
