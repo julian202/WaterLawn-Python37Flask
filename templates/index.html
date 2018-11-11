@@ -10,13 +10,16 @@
 	.pagetitle 	{text-align: center;margin: 1.8rem;}
 </style>
 </head>
-<body>
+<body onload="getLocation()()">
 
 <!-- Hourly:
 <div id="divHourly"></div> -->
 		
 <div class="pagetitle">
-	<h1>Your Rainfall in the past 5 days. WaterLawn</h1>
+	<h1>Your Rainfall in the past 5 days. WaterLawn 44</h1>
+</div>
+<div>
+	<p id="demo"></p>
 </div>
 <div class="container">
 	<div class="row">
@@ -69,7 +72,20 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-
+var x = document.getElementById("demo");
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
+}
+</script>
+<script>
 //var date = 1539205261; //Daily:0.19
 var date = 1540732849;
 var dateMinus1 = date - 24*60*60;

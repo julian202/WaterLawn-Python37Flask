@@ -22,6 +22,15 @@ from datetime import datetime as dt
 from flask import Flask, render_template
 import requests
 from pprint import pprint
+import geoip2.database
+from flask import request
+from flask import jsonify
+
+reader = geoip2.database.Reader('C:\\Users\\julia\\Downloads\\GeoLite2-City_20181106\\GeoLite2-City.mmdb')
+response = reader.city('128.101.101.101')
+
+
+
 app = Flask(__name__)
 
 
@@ -32,8 +41,13 @@ def getData(url, date):
 	#pprint(jsondata["daily"])
 	return 24 * jsondata["daily"]["data"][0]["precipIntensity"]
 
-@app.route('/')
+@app.route('/', methods=["GET"])
 def root():
+	print('#######################1')
+	yourIP = request.environ['REMOTE_ADDR']
+	print(yourIP)
+	print('#######################2')
+	
 	url = "https://api.darksky.net/forecast/8b19ff2840cd837d214d2bfce73426b8/34.277215,-77.836957"
 	'''
 		t = dt(2018, 10, 28, 1)
@@ -47,19 +61,21 @@ def root():
 	dateMinus2 = date - 2*day
 	dateMinus3 = date - 3*day
 	dateMinus4 = date - 4*day
-	a = getData(url, date)
+	
+	#a = getData(url, date)
+	a = response.city.name
 	b = getData(url, dateMinus1)
 	c = getData(url, dateMinus2)
 	d = getData(url, dateMinus3)
 	e = getData(url, dateMinus4)
-	a = "{:.2f}".format(a)
+	#a = "{:.2f}".format(a)
 	b = "{:.2f}".format(b)
 	c = "{:.2f}".format(c)
 	d = "{:.2f}".format(d)
 	e = "{:.2f}".format(e)
 	# For the sake of example, use static information to inflate the template.
 	# This will be replaced with real information in later steps.
-	dummy_times = [a, b, c, d, e]
+	dummy_times = [a, yourIP, c, d, e]
 	return render_template('index.html', times=dummy_times)
 
 if __name__ == '__main__':
