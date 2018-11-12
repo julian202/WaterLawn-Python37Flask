@@ -26,21 +26,22 @@ import geoip2.database
 from flask import request
 from flask import jsonify
 #imports for cloud storage:
+'''
 import logging
 import os
 import cloudstorage as gcs
 import webapp2
-
 from google.appengine.api import app_identity
+'''
+from google.cloud import storage
 
 #reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 #response = reader.city('128.101.101.101')
 
 print('Starting Juliano')
-bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
-self.response.headers['Content-Type'] = 'text/plain'
-self.response.write('Demo GCS Application running from Version: ' + os.environ['CURRENT_VERSION_ID'] + '\n')
-self.response.write('Using bucket name: ' + bucket_name + '\n\n')
+client = storage.Client()
+bucket = client.get_bucket('waterlawn-222200.appspot.com')
+blob2 = bucket.blob('test.txt')
 
 app = Flask(__name__)
 
