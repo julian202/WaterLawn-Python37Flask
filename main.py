@@ -25,13 +25,22 @@ from pprint import pprint
 import geoip2.database
 from flask import request
 from flask import jsonify
+#imports for cloud storage:
+import logging
 import os
+import cloudstorage as gcs
+import webapp2
+
+from google.appengine.api import app_identity
 
 #reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 #response = reader.city('128.101.101.101')
 
 print('Starting Juliano')
-
+bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
+self.response.headers['Content-Type'] = 'text/plain'
+self.response.write('Demo GCS Application running from Version: ' + os.environ['CURRENT_VERSION_ID'] + '\n')
+self.response.write('Using bucket name: ' + bucket_name + '\n\n')
 
 app = Flask(__name__)
 
@@ -46,10 +55,7 @@ def getData(url, date):
 @app.route('/', methods=["GET"])
 def root():
 	print('#######################1')
-	bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
-	self.response.headers['Content-Type'] = 'text/plain'
-	self.response.write('Demo GCS Application running from Version: ' + os.environ['CURRENT_VERSION_ID'] + '\n')
-	self.response.write('Using bucket name: ' + bucket_name + '\n\n')
+
 	yourIP = request.environ['REMOTE_ADDR']
 	print(yourIP)
 	print('#######################2')
