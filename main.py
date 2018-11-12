@@ -41,8 +41,8 @@ from google.cloud import storage
 print('Starting Juliano')
 client = storage.Client()
 bucket = client.get_bucket('waterlawn-222200.appspot.com')
-blob2 = bucket.blob('test.txt')
-
+blob2 = bucket.blob('requirements.txt')
+blob2.upload_from_filename(filename='requirements.txt')
 app = Flask(__name__)
 
 
