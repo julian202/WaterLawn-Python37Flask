@@ -26,8 +26,8 @@ import geoip2.database
 from flask import request
 from flask import jsonify
 
-reader = geoip2.database.Reader('GeoLite2-City.mmdb')
-response = reader.city('128.101.101.101')
+#reader = geoip2.database.Reader('GeoLite2-City.mmdb')
+#response = reader.city('128.101.101.101')
 
 
 
@@ -62,8 +62,8 @@ def root():
 	dateMinus3 = date - 3*day
 	dateMinus4 = date - 4*day
 	
-	#a = getData(url, date)
-	a = response.city.name
+	a = getData(url, date)
+	#a = response.city.name
 	b = getData(url, dateMinus1)
 	c = getData(url, dateMinus2)
 	d = getData(url, dateMinus3)
