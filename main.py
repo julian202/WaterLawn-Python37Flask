@@ -30,8 +30,7 @@ from flask import jsonify
 #response = reader.city('128.101.101.101')
 
 print('Starting Juliano')
-bucket_name = os.environ.get('BUCKET_NAME',
-						   app_identity.get_default_gcs_bucket_name())
+bucket_name = os.environ.get('BUCKET_NAME', app_identity.get_default_gcs_bucket_name())
 
 self.response.headers['Content-Type'] = 'text/plain'
 self.response.write('Demo GCS Application running from Version: '
