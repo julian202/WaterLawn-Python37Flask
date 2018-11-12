@@ -29,7 +29,14 @@ from flask import jsonify
 #reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 #response = reader.city('128.101.101.101')
 
+print('Starting Juliano')
+bucket_name = os.environ.get('BUCKET_NAME',
+						   app_identity.get_default_gcs_bucket_name())
 
+self.response.headers['Content-Type'] = 'text/plain'
+self.response.write('Demo GCS Application running from Version: '
+				  + os.environ['CURRENT_VERSION_ID'] + '\n')
+self.response.write('Using bucket name: ' + bucket_name + '\n\n')
 
 app = Flask(__name__)
 
