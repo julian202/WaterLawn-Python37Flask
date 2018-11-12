@@ -25,6 +25,7 @@ from pprint import pprint
 import geoip2.database
 from flask import request
 from flask import jsonify
+import os
 
 #reader = geoip2.database.Reader('GeoLite2-City.mmdb')
 #response = reader.city('128.101.101.101')
