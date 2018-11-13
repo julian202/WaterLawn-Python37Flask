@@ -35,7 +35,7 @@ from google.appengine.api import app_identity
 '''
 #from google.cloud import storage
 
-reader = geoip2.database.Reader('GeoLite2-City.mmdb')
+reader = geoip2.database.Reader('/gs/waterlawn-222200.appspot.com/GeoLite2-City.mmdb')
 response = reader.city('128.101.101.101')
 
 print('Starting Juliano')
