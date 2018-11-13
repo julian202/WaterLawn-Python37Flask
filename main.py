@@ -33,16 +33,18 @@ import cloudstorage as gcs
 import webapp2
 from google.appengine.api import app_identity
 '''
-from google.cloud import storage
+#from google.cloud import storage
 
-#reader = geoip2.database.Reader('GeoLite2-City.mmdb')
-#response = reader.city('128.101.101.101')
+reader = geoip2.database.Reader('GeoLite2-City.mmdb')
+response = reader.city('128.101.101.101')
 
 print('Starting Juliano')
+'''
 client = storage.Client()
 bucket = client.get_bucket('waterlawn-222200.appspot.com')
 blob2 = bucket.blob('requirements.txt')
 blob2.upload_from_filename(filename='requirements.txt')
+'''
 app = Flask(__name__)
 
 
@@ -75,8 +77,8 @@ def root():
 	dateMinus3 = date - 3*day
 	dateMinus4 = date - 4*day
 	
-	a = getData(url, date)
-	#a = response.city.name
+	#a = getData(url, date)
+	a = response.city.name
 	b = getData(url, dateMinus1)
 	c = getData(url, dateMinus2)
 	d = getData(url, dateMinus3)
