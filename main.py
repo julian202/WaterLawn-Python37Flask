@@ -7,6 +7,7 @@ from datetime import datetime as dt
 '''
 from flask import Flask, render_template
 import requests
+import time
 from pprint import pprint
 import geoip2.database
 from flask import request
@@ -28,7 +29,7 @@ def getWeather(lat, lon):
 	#print("GOT WEATHER")
 	url = "https://api.darksky.net/forecast/8b19ff2840cd837d214d2bfce73426b8/"+lat+","+lon
 	
-	date = 1540732849
+	date = time.time() # 1540732849
 	day = 24 * 60 * 60
 	dateMinus1 = date - day
 	dateMinus2 = date - 2*day
