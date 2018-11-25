@@ -15,6 +15,7 @@
 <body onload="loadDoc()">
 <div class="pagetitle">
 	<h1>Your Rainfall in the past 5 days.</h1>
+	<h3 id="mylocation"></h1>
 </div>
 <div>
 	<p id="demo"></p>
@@ -95,7 +96,7 @@ function codeLatLng(lat, lng) {
       console.log(results)
         if (results[1]) {
 		 myloc = results[2].formatted_address;
-		 document.getElementById("divDailyMinus4").innerHTML = myloc;
+		 document.getElementById("mylocation").innerHTML = myloc;
         } else {
           alert("No results found");
         }
@@ -142,10 +143,6 @@ function initMap() {
   geocoder = new google.maps.Geocoder();
 }
 function loadDoc() {
-
-//alert("loaddoc");
-//alert(latitude);
-//alert(longitude);
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
