@@ -25,6 +25,7 @@ from pprint import pprint
 import geoip2.database
 from flask import request
 from flask import jsonify
+import json
 #imports for cloud storage:
 '''
 import logging
@@ -35,8 +36,8 @@ from google.appengine.api import app_identity
 '''
 #from google.cloud import storage
 
-reader = geoip2.database.Reader('/gs/waterlawn-222200.appspot.com/GeoLite2-City.mmdb')
-response = reader.city('128.101.101.101')
+#reader = geoip2.database.Reader('/gs/waterlawn-222200.appspot.com/GeoLite2-City.mmdb')
+#response = reader.city('128.101.101.101')
 
 print('Starting Juliano')
 '''
@@ -47,9 +48,14 @@ blob2.upload_from_filename(filename='requirements.txt')
 '''
 app = Flask(__name__)
 
-
+def getWeather(lat, lon):
+	print("GOT WEATHER")
+	print(lat)
+	url = "https://api.darksky.net/forecast/8b19ff2840cd837d214d2bfce73426b8/"+lat+","+lon
+	
 def getData(url, date):
 	endPoint = url + "," + str(date) + "?exclude=currently,flags,hourly"
+	print("ENDPONT: " +endPoint)
 	r = requests.get(endPoint)
 	jsondata = r.json()
 	#pprint(jsondata["daily"])
@@ -77,8 +83,8 @@ def root():
 	dateMinus3 = date - 3*day
 	dateMinus4 = date - 4*day
 	
-	#a = getData(url, date)
-	a = response.city.name
+	a = getData(url, date)
+	#a = response.city.name
 	b = getData(url, dateMinus1)
 	c = getData(url, dateMinus2)
 	d = getData(url, dateMinus3)
@@ -88,11 +94,23 @@ def root():
 	c = "{:.2f}".format(c)
 	d = "{:.2f}".format(d)
 	e = "{:.2f}".format(e)
-	# For the sake of example, use static information to inflate the template.
-	# This will be replaced with real information in later steps.
 	dummy_times = [a, yourIP, c, d, e]
 	return render_template('index.html', times=dummy_times)
+	
+@app.route('/ajax_info', methods=["GET"])
+def rootajax():
+	latitude = request.args.get('latitude')
+	longitude = request.args.get('longitude')
+	print(latitude)
+	print(longitude)
+	getWeather(latitude, longitude)
+	return json.dumps({'status':'OK','user':latitude,'pass':'apass'})
+	#return "hello!"
 
+
+
+
+	
 if __name__ == '__main__':
 	# This is used when running locally only. When deploying to Google App
 	# Engine, a webserver process such as Gunicorn will serve the app. This
