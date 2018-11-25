@@ -1,17 +1,3 @@
-# Copyright 2018 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 # [START gae_python37_render_template]
 '''
 import datetime
@@ -26,36 +12,47 @@ import geoip2.database
 from flask import request
 from flask import jsonify
 import json
-#imports for cloud storage:
-'''
-import logging
-import os
-import cloudstorage as gcs
-import webapp2
-from google.appengine.api import app_identity
-'''
+
 #from google.cloud import storage
 
 #reader = geoip2.database.Reader('/gs/waterlawn-222200.appspot.com/GeoLite2-City.mmdb')
 #response = reader.city('128.101.101.101')
 
 print('Starting Juliano')
-'''
-client = storage.Client()
-bucket = client.get_bucket('waterlawn-222200.appspot.com')
-blob2 = bucket.blob('requirements.txt')
-blob2.upload_from_filename(filename='requirements.txt')
-'''
+
 app = Flask(__name__)
 
+a ="is it"
+b ="maybe it is"
 def getWeather(lat, lon):
-	print("GOT WEATHER")
-	print(lat)
+	#print("GOT WEATHER")
 	url = "https://api.darksky.net/forecast/8b19ff2840cd837d214d2bfce73426b8/"+lat+","+lon
+	
+	date = 1540732849
+	day = 24 * 60 * 60
+	dateMinus1 = date - day
+	dateMinus2 = date - 2*day
+	dateMinus3 = date - 3*day
+	dateMinus4 = date - 4*day
+	
+	global a,b,c,d,e
+	a = getData(url, date)
+	#a = response.city.name
+	b = getData(url, dateMinus1)
+	c = getData(url, dateMinus2)
+	d = getData(url, dateMinus3)
+	e = getData(url, dateMinus4)
+	a = "{:.2f}".format(a)
+	#a = "PEREFCT"
+	b = "{:.2f}".format(b)
+	c = "{:.2f}".format(c)
+	d = "{:.2f}".format(d)
+	e = "{:.2f}".format(e)
+	dummy_times = [a, b, c, d, e]
 	
 def getData(url, date):
 	endPoint = url + "," + str(date) + "?exclude=currently,flags,hourly"
-	print("ENDPONT: " +endPoint)
+	#print("ENDPONT: " +endPoint)
 	r = requests.get(endPoint)
 	jsondata = r.json()
 	#pprint(jsondata["daily"])
@@ -101,13 +98,8 @@ def root():
 def rootajax():
 	latitude = request.args.get('latitude')
 	longitude = request.args.get('longitude')
-	print(latitude)
-	print(longitude)
 	getWeather(latitude, longitude)
-	return json.dumps({'status':'OK','user':latitude,'pass':'apass'})
-	#return "hello!"
-
-
+	return json.dumps({'a':a,'b':b,'c':c,'d':d,'e':e,})
 
 
 	

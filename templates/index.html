@@ -27,7 +27,7 @@
 			  <div class="card-header" id="divDate"></div>
 			  <div class="card-body text-primary">
 				<h5 class="card-title" id="divDaily">{{ times[0] }}</h5>
-				<p class="card-text" >Some quick example text .</p>
+				<p class="card-text" ></p>
 			  </div>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 			  <div class="card-header" id="divDateMinus1"></div>
 			  <div class="card-body text-primary">
 				<h5 class="card-title" id="divDailyMinus1">{{ times[1] }}</h5>
-				<p class="card-text" >Some quick example text .</p>
+				<p class="card-text" ></p>
 			  </div>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 			  <div class="card-header" id="divDateMinus2"></div>
 			  <div class="card-body text-primary">
 				<h5 class="card-title" id="divDailyMinus2">{{ times[2] }}</h5>
-				<p class="card-text" >Some quick example text .</p>
+				<p class="card-text" ></p>
 			  </div>
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 			  <div class="card-header" id="divDateMinus3"></div>
 			  <div class="card-body text-primary">
 				<h5 class="card-title" id="divDailyMinus3">Primary card title</h5>
-				<p class="card-text" >Some quick example text .</p>
+				<p class="card-text" ></p>
 			  </div>
 			</div>
 		</div>
@@ -63,7 +63,7 @@
 			  <div class="card-header" id="divDateMinus4"></div>
 			  <div class="card-body text-primary">
 				<h5 class="card-title" id="divDailyMinus4">Primary card title</h5>
-				<p class="card-text" >Some quick example text .</p>
+				<p class="card-text" ></p>
 			  </div>
 			</div>
 		</div>
@@ -93,7 +93,7 @@ function codeLatLng(lat, lng) {
     var latlng = new google.maps.LatLng(lat, lng);
     geocoder.geocode({'latLng': latlng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-      console.log(results)
+      //console.log(results)
         if (results[1]) {
 		 myloc = results[2].formatted_address;
 		 document.getElementById("mylocation").innerHTML = myloc;
@@ -146,10 +146,13 @@ function loadDoc() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-		console.log(this.responseText);
+		//console.log(this.responseText);
 		var myArr = JSON.parse(this.responseText);
-		console.log(myArr['status']);
-		document.getElementById("divDailyMinus3").innerHTML = myArr['status'];
+		document.getElementById("divDaily").innerHTML = myArr['a'];
+		document.getElementById("divDailyMinus1").innerHTML = myArr['b'];
+		document.getElementById("divDailyMinus2").innerHTML = myArr['c'];
+		document.getElementById("divDailyMinus3").innerHTML = myArr['d'];
+		document.getElementById("divDailyMinus4").innerHTML = myArr['e'];
 		//document.getElementById("divDailyMinus4").innerHTML = myArr['user'];
 		//document.getElementById("divDailyMinus4").innerHTML = location;
 		
