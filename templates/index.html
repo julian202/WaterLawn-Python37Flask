@@ -14,8 +14,8 @@
 </head>
 <body onload="loadDoc()">
 <div class="pagetitle">
-	<h1>Your Rainfall in the past 5 days.</h1>
-	<h3 id="mylocation"></h1>
+	<h1>Should you water your lawn today?</h1>
+	<h3 id="mylocation" style= "margin-top: 2.5rem; margin-bottom: 2.7rem; color: #545b62"></h1>
 </div>
 <div>
 	<p id="demo"></p>
@@ -26,7 +26,7 @@
 			<div class="card border-primary mb-3" style="max-width: 18rem;">
 			  <div class="card-header" id="divDate"></div>
 			  <div class="card-body text-primary">
-				<h5 class="card-title" id="divDaily">{{ times[0] }}</h5>
+				<h5 class="card-title" id="divDaily">{{ initialPrecip[0] }}</h5>
 				<p class="card-text" ></p>
 			  </div>
 			</div>
@@ -35,7 +35,7 @@
 			<div class="card border-primary mb-3" style="max-width: 18rem;">
 			  <div class="card-header" id="divDateMinus1"></div>
 			  <div class="card-body text-primary">
-				<h5 class="card-title" id="divDailyMinus1">{{ times[1] }}</h5>
+				<h5 class="card-title" id="divDailyMinus1">{{ initialPrecip[1] }}</h5>
 				<p class="card-text" ></p>
 			  </div>
 			</div>
@@ -44,7 +44,7 @@
 			<div class="card border-primary mb-3" style="max-width: 18rem;">
 			  <div class="card-header" id="divDateMinus2"></div>
 			  <div class="card-body text-primary">
-				<h5 class="card-title" id="divDailyMinus2">{{ times[2] }}</h5>
+				<h5 class="card-title" id="divDailyMinus2">{{ initialPrecip[2] }}</h5>
 				<p class="card-text" ></p>
 			  </div>
 			</div>
@@ -53,7 +53,7 @@
 			<div class="card border-primary mb-3" style="max-width: 18rem;">
 			  <div class="card-header" id="divDateMinus3"></div>
 			  <div class="card-body text-primary">
-				<h5 class="card-title" id="divDailyMinus3">Primary card title</h5>
+				<h5 class="card-title" id="divDailyMinus3">{{ initialPrecip[3] }}</h5>
 				<p class="card-text" ></p>
 			  </div>
 			</div>
@@ -62,11 +62,18 @@
 			<div class="card border-primary mb-3" style="max-width: 18rem;">
 			  <div class="card-header" id="divDateMinus4"></div>
 			  <div class="card-body text-primary">
-				<h5 class="card-title" id="divDailyMinus4">Primary card title</h5>
+				<h5 class="card-title" id="divDailyMinus4">{{ initialPrecip[4] }}</h5>
 				<p class="card-text" ></p>
 			  </div>
 			</div>
 		</div>
+	</div>
+	<div class="row" style="margin-top: 2rem">
+			<div>
+				<h5 id="divTotal"></h5>
+			</div>
+
+
 	</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -96,7 +103,7 @@ function codeLatLng(lat, lng) {
       //console.log(results)
         if (results[1]) {
 		 myloc = results[2].formatted_address;
-		 document.getElementById("mylocation").innerHTML = myloc;
+		 document.getElementById("mylocation").innerHTML = "Rainfall in the past 5 days in " + myloc + ":";
         } else {
           alert("No results found");
         }
@@ -108,8 +115,12 @@ function codeLatLng(lat, lng) {
 
 </script>
 <script>
-//var date = 1539205261; //Daily:0.19
-var date = 1540732849;
+//unix time shim for ie8
+if (!Date.now) {
+    Date.now = function() { return new Date().getTime(); }
+}
+var date = Math.floor(Date.now() / 1000);
+console.log("unixtime: " + date);
 var dateMinus1 = date - 24*60*60;
 var dateMinus2 = date - 2*24*60*60;
 var dateMinus3 = date - 3*24*60*60;
@@ -153,6 +164,9 @@ function loadDoc() {
 		document.getElementById("divDailyMinus2").innerHTML = myArr['c'];
 		document.getElementById("divDailyMinus3").innerHTML = myArr['d'];
 		document.getElementById("divDailyMinus4").innerHTML = myArr['e'];
+		total = parseFloat(myArr['a']) + parseFloat(myArr['b']) +parseFloat(myArr['c']) +parseFloat(myArr['d']) + parseFloat(myArr['e'])
+		document.getElementById("divTotal").innerHTML = "Total precipitation in the past 5 days = " + total ;		
+		
 		//document.getElementById("divDailyMinus4").innerHTML = myArr['user'];
 		//document.getElementById("divDailyMinus4").innerHTML = location;
 		

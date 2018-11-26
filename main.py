@@ -19,37 +19,28 @@ import json
 #reader = geoip2.database.Reader('/gs/waterlawn-222200.appspot.com/GeoLite2-City.mmdb')
 #response = reader.city('128.101.101.101')
 
-print('Starting Juliano')
-
 app = Flask(__name__)
 
-a ="is it"
-b ="maybe it is"
 def getWeather(lat, lon):
 	#print("GOT WEATHER")
 	url = "https://api.darksky.net/forecast/8b19ff2840cd837d214d2bfce73426b8/"+lat+","+lon
-	
-	date = time.time() # 1540732849
+	global a,b,c,d,e,date,precip1,precip2,precip3,precip4,precip5
+	date = int(time.time()) # 1540732849
 	day = 24 * 60 * 60
 	dateMinus1 = date - day
 	dateMinus2 = date - 2*day
 	dateMinus3 = date - 3*day
-	dateMinus4 = date - 4*day
-	
-	global a,b,c,d,e
-	a = getData(url, date)
-	#a = response.city.name
-	b = getData(url, dateMinus1)
-	c = getData(url, dateMinus2)
-	d = getData(url, dateMinus3)
-	e = getData(url, dateMinus4)
-	a = "{:.2f}".format(a)
-	#a = "PEREFCT"
-	b = "{:.2f}".format(b)
-	c = "{:.2f}".format(c)
-	d = "{:.2f}".format(d)
-	e = "{:.2f}".format(e)
-	dummy_times = [a, b, c, d, e]
+	dateMinus4 = date - 4*day	
+	precip1 = getData(url, date)
+	precip2 = getData(url, dateMinus1)
+	precip3 = getData(url, dateMinus2)
+	precip4 = getData(url, dateMinus3)
+	precip5 = getData(url, dateMinus4)
+	precip1 = "{:.2f}".format(precip1)
+	precip2 = "{:.2f}".format(precip2)
+	precip3 = "{:.2f}".format(precip3)
+	precip4 = "{:.2f}".format(precip4)
+	precip5 = "{:.2f}".format(precip5)
 	
 def getData(url, date):
 	endPoint = url + "," + str(date) + "?exclude=currently,flags,hourly"
@@ -61,47 +52,23 @@ def getData(url, date):
 
 @app.route('/', methods=["GET"])
 def root():
+	'''
 	print('#######################1')
-
 	yourIP = request.environ['REMOTE_ADDR']
 	print(yourIP)
 	print('#######################2')
-	
 	url = "https://api.darksky.net/forecast/8b19ff2840cd837d214d2bfce73426b8/34.277215,-77.836957"
 	'''
-		t = dt(2018, 10, 28, 1)
-		#t = dt(2018, 11, 4, 1).isoformat()
-		day = timedelta(days=1)
-		t_minus1 = (t-day).isoformat()
-	'''
-	date = 1540732849
-	day = 24 * 60 * 60
-	dateMinus1 = date - day
-	dateMinus2 = date - 2*day
-	dateMinus3 = date - 3*day
-	dateMinus4 = date - 4*day
-	
-	a = getData(url, date)
-	#a = response.city.name
-	b = getData(url, dateMinus1)
-	c = getData(url, dateMinus2)
-	d = getData(url, dateMinus3)
-	e = getData(url, dateMinus4)
-	#a = "{:.2f}".format(a)
-	b = "{:.2f}".format(b)
-	c = "{:.2f}".format(c)
-	d = "{:.2f}".format(d)
-	e = "{:.2f}".format(e)
-	dummy_times = [a, yourIP, c, d, e]
-	return render_template('index.html', times=dummy_times)
+	#precip = ['0.0', '0.0', '0.0', '0.0', '0.0']
+	precip = ['-','-','-','-','-']
+	return render_template('index.html', initialPrecip=precip)
 	
 @app.route('/ajax_info', methods=["GET"])
 def rootajax():
 	latitude = request.args.get('latitude')
 	longitude = request.args.get('longitude')
 	getWeather(latitude, longitude)
-	return json.dumps({'a':a,'b':b,'c':c,'d':d,'e':e,})
-
+	return json.dumps({'a':precip1,'b':precip2,'c':precip3,'d':precip4,'e':precip5})
 
 	
 if __name__ == '__main__':
